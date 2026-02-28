@@ -141,18 +141,6 @@ def _get_current_solar_intensity(self) -> float:
 def _supports_direct_valve_control(self, entity_id: str) -> bool:
     """Return True if the TRV supports writing a valve percentage."""
 
-    _calibration_type = self.real_trvs[entity_id]["advanced"].get(
-        "calibration", CalibrationType.TARGET_TEMP_BASED
-    )
-    if _calibration_type != CalibrationType.DIRECT_VALVE_BASED:
-        _LOGGER.debug(
-            "better_thermostat %s: TRV %s does not support direct valve control due to calibration type %s",
-            self.device_name,
-            entity_id,
-            _calibration_type,
-        )
-        return False
-
     trv_data = self.real_trvs.get(entity_id) or {}
     valve_entity = trv_data.get("valve_position_entity")
     writable_flag = trv_data.get("valve_position_writable")
